@@ -54,6 +54,7 @@ final class PlacesTableViewCell: UITableViewCell {
     private func configureStyle() {
         accessoryType = .disclosureIndicator
         backgroundColor = .white
+        
     }
     
 }

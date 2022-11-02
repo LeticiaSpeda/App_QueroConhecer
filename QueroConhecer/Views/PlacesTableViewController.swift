@@ -18,6 +18,7 @@ final class PlacesTableViewController: UITableViewController {
     private func configureStyle() {
         view.backgroundColor = .white.withAlphaComponent(0.9)
         navigationItem.title = "Quero Conhecer"
+        navigationController?.navigationBar.prefersLargeTitles = true
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white.withAlphaComponent(0.5)
         appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
@@ -47,6 +48,11 @@ final class PlacesTableViewController: UITableViewController {
         return UITableViewCell()
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let controller = PlaceFinderViewController()
+        controller.modalPresentationStyle = .overFullScreen
+        present(controller, animated: true)
+    }
     
 }
 
