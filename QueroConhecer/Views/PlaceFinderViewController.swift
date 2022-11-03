@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 final class PlaceFinderViewController: UIViewController {
     
@@ -58,7 +59,7 @@ final class PlaceFinderViewController: UIViewController {
         return tf
     }()
     
-    private lazy var chooseLocationButton: UIButton = {
+    private lazy var findCity: UIButton = {
         let button = UIButton()
         button.setTitle("Escolher", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -66,6 +67,13 @@ final class PlaceFinderViewController: UIViewController {
         button.layer.cornerRadius = 6
         button.enableView()
         return button
+    }()
+    
+    private lazy var placeFinderView: MKMapView = {
+        let view = MKMapView()
+        view.backgroundColor = .red
+        view.enableView()
+        return view
     }()
     
     override func viewDidLoad() {
@@ -85,7 +93,8 @@ final class PlaceFinderViewController: UIViewController {
         placeView.addSubview(placeNameLabel)
         placeView.addSubview(locationMapLabel)
         placeView.addSubview(locationMapTextField)
-        placeView.addSubview(chooseLocationButton)
+        placeView.addSubview(findCity)
+        placeView.addSubview(placeFinderView)
     }
     
     private func configureConstraints() {
@@ -111,13 +120,20 @@ final class PlaceFinderViewController: UIViewController {
             
             locationMapTextField.topAnchor.constraint(equalTo: placeNameLabel.bottomAnchor, constant: 30),
             locationMapTextField.leftAnchor.constraint(equalTo: placeView.leftAnchor, constant: 10),
-            locationMapTextField.rightAnchor.constraint(equalTo: chooseLocationButton.leftAnchor, constant: -10),
+            locationMapTextField.rightAnchor.constraint(equalTo: findCity.leftAnchor, constant: -10),
             locationMapTextField.heightAnchor.constraint(equalToConstant: 30),
             
-            chooseLocationButton.topAnchor.constraint(equalTo: placeNameLabel.bottomAnchor, constant: 30),
-            chooseLocationButton.leftAnchor.constraint(equalTo: locationMapTextField.rightAnchor, constant: 10),
-            chooseLocationButton.rightAnchor.constraint(equalTo: placeNameLabel.rightAnchor, constant: -10),
-            chooseLocationButton.widthAnchor.constraint(equalToConstant: 80)
+            findCity.topAnchor.constraint(equalTo: placeNameLabel.bottomAnchor, constant: 30),
+            findCity.leftAnchor.constraint(equalTo: locationMapTextField.rightAnchor, constant: 10),
+            findCity.rightAnchor.constraint(equalTo: placeNameLabel.rightAnchor, constant: -10),
+            findCity.widthAnchor.constraint(equalToConstant: 80),
+            
+            placeFinderView.topAnchor.constraint(equalTo: locationMapLabel.bottomAnchor, constant: 20),
+            placeFinderView.leftAnchor.constraint(equalTo: placeView.leftAnchor, constant: 10),
+            placeFinderView.rightAnchor.constraint(equalTo: placeView.rightAnchor, constant: -10),
+            placeFinderView.bottomAnchor.constraint(equalTo: placeView.bottomAnchor, constant: -10),
+            
+            
             
         ])
     }
