@@ -11,9 +11,61 @@ final class PlaceFinderViewController: UIViewController {
     
     private lazy var placeView: UIView = {
         let view = UIView()
-        view.backgroundColor = .red
-        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        view.enableView()
         return view
+    }()
+    
+    private lazy var closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "cancel"), for: .normal)
+        button.contentMode = .scaleAspectFill
+        button.enableView()
+        return button
+    }()
+    
+    private lazy var placeNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Digite o nome do local que você deseja conhecer..."
+        label.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        label.textColor = .black
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        label.enableView()
+        return label
+    }()
+    
+    private lazy var locationMapLabel: UILabel = {
+        let label = UILabel()
+        label.text = "...ou escolha tocando no mapa \npor 2 segundos"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        label.enableView()
+        return label
+    }()
+    
+    private lazy var locationMapTextField: UITextField = {
+        let tf = UITextField()
+        tf.placeholder = "Digite a localização..."
+        tf.textColor = .gray
+        tf.backgroundColor = .white
+        tf.layer.borderWidth = 1
+        tf.layer.borderColor = UIColor.gray.cgColor
+        tf.layer.cornerRadius = 6
+        tf.enableView()
+        return tf
+    }()
+    
+    private lazy var chooseLocationButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Escolher", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0, green: 0.7127103806, blue: 0.8802782297, alpha: 1)
+        button.layer.cornerRadius = 6
+        button.enableView()
+        return button
     }()
     
     override func viewDidLoad() {
@@ -29,6 +81,11 @@ final class PlaceFinderViewController: UIViewController {
     
     private func configureHierarchy() {
         view.addSubview(placeView)
+        placeView.addSubview(closeButton)
+        placeView.addSubview(placeNameLabel)
+        placeView.addSubview(locationMapLabel)
+        placeView.addSubview(locationMapTextField)
+        placeView.addSubview(chooseLocationButton)
     }
     
     private func configureConstraints() {
@@ -38,10 +95,40 @@ final class PlaceFinderViewController: UIViewController {
             placeView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20),
             placeView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20),
             placeView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
+            
+            closeButton.topAnchor.constraint(equalTo: placeView.topAnchor, constant: -14),
+            closeButton.rightAnchor.constraint(equalTo: placeView.rightAnchor, constant: 8),
+            
+            placeNameLabel.topAnchor.constraint(equalTo: placeView.topAnchor, constant: 20),
+            placeNameLabel.leftAnchor.constraint(equalTo: placeView.leftAnchor, constant: 30),
+            placeNameLabel.rightAnchor.constraint(equalTo: placeView.rightAnchor, constant: -30),
+            
+            locationMapLabel.topAnchor.constraint(equalTo: placeNameLabel.bottomAnchor, constant: 90),
+            locationMapLabel.centerXAnchor.constraint(equalTo: placeNameLabel.centerXAnchor),
+            locationMapLabel.leftAnchor.constraint(equalTo: placeView.leftAnchor, constant: 30),
+            locationMapLabel.rightAnchor.constraint(equalTo: placeView.rightAnchor, constant: -30),
+            
+            
+            locationMapTextField.topAnchor.constraint(equalTo: placeNameLabel.bottomAnchor, constant: 30),
+            locationMapTextField.leftAnchor.constraint(equalTo: placeView.leftAnchor, constant: 10),
+            locationMapTextField.rightAnchor.constraint(equalTo: chooseLocationButton.leftAnchor, constant: -10),
+            locationMapTextField.heightAnchor.constraint(equalToConstant: 30),
+            
+            chooseLocationButton.topAnchor.constraint(equalTo: placeNameLabel.bottomAnchor, constant: 30),
+            chooseLocationButton.leftAnchor.constraint(equalTo: locationMapTextField.rightAnchor, constant: 10),
+            chooseLocationButton.rightAnchor.constraint(equalTo: placeNameLabel.rightAnchor, constant: -10),
+            chooseLocationButton.widthAnchor.constraint(equalToConstant: 80)
+            
         ])
     }
     
     private func configureStyle() {
         view.backgroundColor = .gray.withAlphaComponent(1.0)
+    }
+}
+
+extension UIView {
+    func enableView() {
+        translatesAutoresizingMaskIntoConstraints = false
     }
 }
