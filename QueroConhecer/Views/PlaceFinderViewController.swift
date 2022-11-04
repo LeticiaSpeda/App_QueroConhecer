@@ -21,6 +21,7 @@ final class PlaceFinderViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "cancel"), for: .normal)
         button.contentMode = .scaleAspectFill
+        button.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
         button.enableView()
         return button
     }()
@@ -69,12 +70,30 @@ final class PlaceFinderViewController: UIViewController {
         return button
     }()
     
-    private lazy var placeFinderView: MKMapView = {
-        let view = MKMapView()
-        view.backgroundColor = .red
+    private lazy var mapView: MKMapView = {
+        let map = MKMapView()
+        map.enableView()
+        return map
+    }()
+    
+    private lazy var loadingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white.withAlphaComponent(0.9)
         view.enableView()
         return view
     }()
+    
+    private lazy var loading: UIActivityIndicatorView = {
+        let load = UIActivityIndicatorView(style: .large)
+        load.color = #colorLiteral(red: 0, green: 0.7127104998, blue: 0.8844717741, alpha: 1)
+        load.startAnimating()
+        load.enableView()
+        return load
+    }()
+    
+    @objc func handleCloseButton() {
+        dismiss(animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,7 +113,9 @@ final class PlaceFinderViewController: UIViewController {
         placeView.addSubview(locationMapLabel)
         placeView.addSubview(locationMapTextField)
         placeView.addSubview(findCity)
-        placeView.addSubview(placeFinderView)
+        placeView.addSubview(mapView)
+        placeView.addSubview(loadingView)
+        loadingView.addSubview(loadingView)
     }
     
     private func configureConstraints() {
@@ -128,13 +149,18 @@ final class PlaceFinderViewController: UIViewController {
             findCity.rightAnchor.constraint(equalTo: placeNameLabel.rightAnchor, constant: -10),
             findCity.widthAnchor.constraint(equalToConstant: 80),
             
-            placeFinderView.topAnchor.constraint(equalTo: locationMapLabel.bottomAnchor, constant: 20),
-            placeFinderView.leftAnchor.constraint(equalTo: placeView.leftAnchor, constant: 10),
-            placeFinderView.rightAnchor.constraint(equalTo: placeView.rightAnchor, constant: -10),
-            placeFinderView.bottomAnchor.constraint(equalTo: placeView.bottomAnchor, constant: -10),
+            mapView.topAnchor.constraint(equalTo: locationMapLabel.bottomAnchor, constant: 20),
+            mapView.leftAnchor.constraint(equalTo: placeView.leftAnchor, constant: 10),
+            mapView.rightAnchor.constraint(equalTo: placeView.rightAnchor, constant: -10),
+            mapView.bottomAnchor.constraint(equalTo: placeView.bottomAnchor, constant: -10),
             
+            loadingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            loadingView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20),
+            loadingView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20),
+            loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
             
-            
+            loadingView.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            loadingView.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor),
         ])
     }
     
