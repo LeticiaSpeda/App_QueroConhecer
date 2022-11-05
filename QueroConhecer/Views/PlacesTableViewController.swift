@@ -49,9 +49,10 @@ final class PlacesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let controller = PlaceFinderViewController()
-        controller.modalPresentationStyle = .overFullScreen
-        present(controller, animated: true)
+        let controller = ViewController()
+        let navigation = UINavigationController(rootViewController: controller)
+        navigation.modalPresentationStyle = .overFullScreen
+        present(navigation, animated: true)
     }
     
 }
