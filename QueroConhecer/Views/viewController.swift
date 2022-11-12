@@ -43,11 +43,35 @@ final class ViewController: UIViewController {
     
     private lazy var testView: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .white
         view.enableView()
         return view
     }()
     
+    private lazy var nameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Nome:"
+        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        label.enableCode()
+        return label
+    }()
+    
+    private lazy var andressLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Endereço:"
+        label.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        label.numberOfLines = 6
+        label.enableCode()
+        return label
+    }()
+    
+    private lazy var traceRoutesButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Traçar Rotas", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.08193505555, green: 0.728433311, blue: 0.8918333054, alpha: 1), for: .normal)
+        button.enableCode()
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +95,9 @@ final class ViewController: UIViewController {
         viewColor.addSubview(mainVStack)
         mainVStack.addArrangedSubview(searchMapView)
         mainVStack.addArrangedSubview(testView)
-        
+        testView.addSubview(nameLabel)
+        testView.addSubview(andressLabel)
+        testView.addSubview(traceRoutesButton)
         
     }
     
@@ -92,12 +118,20 @@ final class ViewController: UIViewController {
             mainVStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             mainVStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             mainVStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
-
+            
             searchMapView.heightAnchor.constraint(equalToConstant: 370),
             
-            testView.heightAnchor.constraint(equalToConstant: 250)
+            testView.heightAnchor.constraint(equalToConstant: 250),
             
+            nameLabel.topAnchor.constraint(equalTo: testView.topAnchor, constant: 15),
+            nameLabel.leftAnchor.constraint(equalTo: testView.leftAnchor, constant: 15),
             
+            andressLabel.topAnchor.constraint(equalTo: nameLabel.topAnchor, constant: 30),
+            andressLabel.leftAnchor.constraint(equalTo: testView.leftAnchor, constant: 15),
+            
+            traceRoutesButton.bottomAnchor.constraint(equalTo: testView.bottomAnchor, constant: -6),
+            traceRoutesButton.leftAnchor.constraint(equalTo: testView.leftAnchor, constant: 12),
+            traceRoutesButton.rightAnchor.constraint(equalTo: testView.rightAnchor, constant: -12),
         ])
         
     }
