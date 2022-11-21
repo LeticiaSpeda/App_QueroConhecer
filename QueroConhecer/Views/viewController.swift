@@ -82,6 +82,10 @@ final class ViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func searchMap() {
+        
+    }
+    
     private func commonInit() {
         configureHierarchy()
         configureConstraints()
@@ -145,6 +149,8 @@ final class ViewController: UIViewController {
             action: #selector(handleFinishButton)
         )
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        navigationItem.rightBarButtonItem = .init(image: .init(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchMap))
         
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white.withAlphaComponent(0.5)

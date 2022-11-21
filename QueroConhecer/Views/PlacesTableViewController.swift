@@ -23,14 +23,23 @@ final class PlacesTableViewController: UITableViewController {
         appearance.backgroundColor = .white.withAlphaComponent(0.5)
         appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
         
-        navigationController?.navigationBar.tintColor = .white
+
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        
+        navigationItem.rightBarButtonItem = .init(image: .init(systemName: "plus"), style: .plain, target: self, action: #selector(addRoute))
     }
     
-    override func tableView(_ tableView: UITableView,
-                            numberOfRowsInSection section: Int) -> Int{
+    @objc func addRoute() {
+        let controller = ViewController()
+        let navigation = UINavigationController(rootViewController: controller)
+        navigation.modalPresentationStyle = .overFullScreen
+        present(navigation, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         
         return 1
     }

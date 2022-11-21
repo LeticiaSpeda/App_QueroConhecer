@@ -19,6 +19,12 @@ final class PlacesTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+//    
+//    private lazy var viewHome: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = .red
+//        return view
+//    }()
     
     override init(
         style: UITableViewCell.CellStyle,
@@ -40,6 +46,7 @@ final class PlacesTableViewCell: UITableViewCell {
     
     private func configureHierarchy() {
         addSubview(titleLabel)
+//        addSubview(viewHome)
     }
     
     private func configureConstraints() {
@@ -47,14 +54,16 @@ final class PlacesTableViewCell: UITableViewCell {
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-        
+            
+//            viewHome.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+//            viewHome.leadingAnchor.constraint(equalTo: leadingAnchor),
+//            viewHome.trailingAnchor.constraint(equalTo: trailingAnchor),
+//            viewHome.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
     private func configureStyle() {
         accessoryType = .disclosureIndicator
         backgroundColor = .white
-        
     }
-    
 }
