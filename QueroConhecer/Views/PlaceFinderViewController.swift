@@ -108,14 +108,14 @@ final class PlaceFinderViewController: UIViewController {
     
     private func configureHierarchy() {
         view.addSubview(placeView)
-        placeView.addSubview(closeButton)
         placeView.addSubview(placeNameLabel)
         placeView.addSubview(locationMapLabel)
         placeView.addSubview(locationMapTextField)
         placeView.addSubview(findCity)
         placeView.addSubview(mapView)
         placeView.addSubview(loadingView)
-        loadingView.addSubview(loadingView)
+        loadingView.addSubview(closeButton)
+        loadingView.addSubview(loading)
     }
     
     private func configureConstraints() {
@@ -159,8 +159,8 @@ final class PlaceFinderViewController: UIViewController {
             loadingView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20),
             loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
             
-            loadingView.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
-            loadingView.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor),
+            loading.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            loading.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor),
         ])
     }
     
