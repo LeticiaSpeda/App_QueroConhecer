@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E002A182293414B000A4EEFA /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = E002A181293414B000A4EEFA /* Place.swift */; };
 		E0B423122912BF9C002E7373 /* PlaceFinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B423112912BF9C002E7373 /* PlaceFinderViewController.swift */; };
-		E0B4231429154AAD002E7373 /* viewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4231329154AAD002E7373 /* viewController.swift */; };
+		E0B4231429154AAD002E7373 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4231329154AAD002E7373 /* ViewController.swift */; };
 		E0DC6B1F2911F72D00D9F3E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DC6B1E2911F72D00D9F3E5 /* AppDelegate.swift */; };
 		E0DC6B212911F72D00D9F3E5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DC6B202911F72D00D9F3E5 /* SceneDelegate.swift */; };
 		E0DC6B232911F72D00D9F3E5 /* PlacesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DC6B222911F72D00D9F3E5 /* PlacesTableViewController.swift */; };
@@ -18,8 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E002A181293414B000A4EEFA /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		E0B423112912BF9C002E7373 /* PlaceFinderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceFinderViewController.swift; sourceTree = "<group>"; };
-		E0B4231329154AAD002E7373 /* viewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viewController.swift; sourceTree = "<group>"; };
+		E0B4231329154AAD002E7373 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E0DC6B1B2911F72D00D9F3E5 /* QueroConhecer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QueroConhecer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0DC6B1E2911F72D00D9F3E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E0DC6B202911F72D00D9F3E5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,7 +94,8 @@
 				E0DC6B222911F72D00D9F3E5 /* PlacesTableViewController.swift */,
 				E0DC6B3529120EE200D9F3E5 /* PlacesTableViewCell.swift */,
 				E0B423112912BF9C002E7373 /* PlaceFinderViewController.swift */,
-				E0B4231329154AAD002E7373 /* viewController.swift */,
+				E0B4231329154AAD002E7373 /* ViewController.swift */,
+				E002A181293414B000A4EEFA /* Place.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -167,11 +170,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0B4231429154AAD002E7373 /* viewController.swift in Sources */,
+				E0B4231429154AAD002E7373 /* ViewController.swift in Sources */,
 				E0DC6B232911F72D00D9F3E5 /* PlacesTableViewController.swift in Sources */,
 				E0DC6B1F2911F72D00D9F3E5 /* AppDelegate.swift in Sources */,
 				E0B423122912BF9C002E7373 /* PlaceFinderViewController.swift in Sources */,
 				E0DC6B212911F72D00D9F3E5 /* SceneDelegate.swift in Sources */,
+				E002A182293414B000A4EEFA /* Place.swift in Sources */,
 				E0DC6B3629120EE200D9F3E5 /* PlacesTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

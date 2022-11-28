@@ -67,6 +67,7 @@ final class PlaceFinderViewController: UIViewController {
         button.backgroundColor = #colorLiteral(red: 0, green: 0.7127103806, blue: 0.8802782297, alpha: 1)
         button.layer.cornerRadius = 6
         button.enableView()
+        button.addTarget(self, action: #selector(searchButton), for: .touchUpInside)
         return button
     }()
     
@@ -80,6 +81,7 @@ final class PlaceFinderViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .white.withAlphaComponent(0.9)
         view.enableView()
+        view.isHidden = true
         return view
     }()
     
@@ -95,9 +97,32 @@ final class PlaceFinderViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func searchButton() {
+        guard let address = locationMapTextField.text else { return }
+        view.endEditing(true)
+        load(show: true)
+        
+        let geoCoder = CLGeocoder()
+        geoCoder.geocodeAddressString(address) { placemarks, error in
+            self.load(show: false)
+            
+            guard let placemark = placemarks?.first else { return }
+            print(Place.getFormatedAddress(with: placemark))
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         commonInit()
+    }
+    
+    private func load(show: Bool) {
+        loadingView.isHidden = !show
+        if show {
+            loading.startAnimating()
+        } else {
+            loading.stopAnimating()
+        }
     }
     
     private func commonInit() {
@@ -114,7 +139,7 @@ final class PlaceFinderViewController: UIViewController {
         placeView.addSubview(findCity)
         placeView.addSubview(mapView)
         placeView.addSubview(loadingView)
-        loadingView.addSubview(closeButton)
+        placeView.addSubview(closeButton)
         loadingView.addSubview(loading)
     }
     

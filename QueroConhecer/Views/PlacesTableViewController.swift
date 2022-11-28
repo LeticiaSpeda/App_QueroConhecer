@@ -37,7 +37,10 @@ final class PlacesTableViewController: UITableViewController {
     @objc func addRoute() {
         let controller = PlaceFinderViewController()
         controller.modalPresentationStyle = .overFullScreen
+        controller.modalTransitionStyle = .crossDissolve
         self.present(controller, animated: true)
+        
+        
 
     }
 
