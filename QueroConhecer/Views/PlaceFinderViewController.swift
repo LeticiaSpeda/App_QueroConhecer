@@ -10,6 +10,14 @@ import MapKit
 
 final class PlaceFinderViewController: UIViewController {
     
+    enum PlaceFinderMessageType {
+        case error(String)
+        case confirmation(String)
+    }
+    
+    
+    var place: Place?
+    
     private lazy var placeView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -103,12 +111,39 @@ final class PlaceFinderViewController: UIViewController {
         load(show: true)
         
         let geoCoder = CLGeocoder()
-        geoCoder.geocodeAddressString(address) { placemarks, error in
+        geoCoder.geocodeAddressString(address) { [weak self] placemarks, error in
+            guard let self = self else { return }
             self.load(show: false)
             
-            guard let placemark = placemarks?.first else { return }
-            print(Place.getFormatedAddress(with: placemark))
+            if error == nil {
+                let hasNoLocal = !self.savePlace(with: placemarks?.first)
+                if hasNoLocal{
+                    self.showManage(type: .error("Não foi encontrado nenhum local com esse nome"))
+                }
+            } else {
+                self.showManage(type: .error("Erro desconhecido"))
+            }
         }
+    }
+    
+    private func savePlace(with placemark: CLPlacemark?) -> Bool {
+        guard let placemark = placemark, let coordinate = placemark.location?.coordinate else { return false }
+        
+        let name = placemark.name ?? placemark.country ?? "Desconhecido"
+        let address = Place.getFormatedAddress(with: placemark)
+        place = Place(
+            name: name,
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude,
+            address: address
+        )
+        
+        let regiom = MKCoordinateRegion(center: coordinate, latitudinalMeters: 3500, longitudinalMeters: 3500)
+        mapView.setRegion(regiom, animated: true)
+        
+        self.showManage(type: .confirmation(place?.name ?? " "))
+        
+        return true
     }
     
     override func viewDidLoad() {
@@ -123,6 +158,34 @@ final class PlaceFinderViewController: UIViewController {
         } else {
             loading.stopAnimating()
         }
+    }
+    
+    private func showManage(type: PlaceFinderMessageType) {
+        let title: String, message: String
+        var hasConfirmation: Bool = false
+        
+        switch type {
+        case .confirmation(let name):
+            title = "Local encontrado"
+            message = "Deseja adicionar \(name)"
+            hasConfirmation = true
+        case .error(let errorMessage):
+            title = "Erro"
+            message = errorMessage
+        }
+        
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel)
+        alert.addAction(cancelAction)
+        if hasConfirmation {
+            let confirmeAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                print("OK!!!")
+            }
+            alert.addAction(confirmeAction )
+        }
+        
+        present(alert, animated: true)
     }
     
     private func commonInit() {
