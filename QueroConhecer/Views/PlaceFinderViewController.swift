@@ -9,14 +9,12 @@ import UIKit
 import MapKit
 
 final class PlaceFinderViewController: UIViewController {
+    var place: Place?
     
     enum PlaceFinderMessageType {
         case error(String)
         case confirmation(String)
     }
-    
-    
-    var place: Place?
     
     private lazy var placeView: UIView = {
         let view = UIView()
@@ -101,6 +99,14 @@ final class PlaceFinderViewController: UIViewController {
         return load
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        commonInit()
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(getLocation(_:)))
+        gesture.minimumPressDuration = 2.0
+        mapView.addGestureRecognizer(gesture)
+    }
+    
     @objc func handleCloseButton() {
         dismiss(animated: true, completion: nil)
     }
@@ -120,8 +126,30 @@ final class PlaceFinderViewController: UIViewController {
                 if hasNoLocal{
                     self.showManage(type: .error("Não foi encontrado nenhum local com esse nome"))
                 }
+                
             } else {
                 self.showManage(type: .error("Erro desconhecido"))
+            }
+        }
+    }
+    
+    @objc func getLocation(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            load(show: true)
+            let point = gesture.location(in: mapView)
+            let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
+            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
+                self.load(show: false)
+                
+                if error == nil {
+                    let hasNoLocal = !self.savePlace(with: placemarks?.first)
+                    if hasNoLocal{
+                        self.showManage(type: .error("Não foi encontrado nenhum local com esse nome"))
+                    }
+                } else {
+                    self.showManage(type: .error("Erro desconhecido"))
+                }
             }
         }
     }
@@ -144,11 +172,6 @@ final class PlaceFinderViewController: UIViewController {
         self.showManage(type: .confirmation(place?.name ?? " "))
         
         return true
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        commonInit()
     }
     
     private func load(show: Bool) {
@@ -174,7 +197,6 @@ final class PlaceFinderViewController: UIViewController {
             message = errorMessage
         }
         
-        
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel)
         alert.addAction(cancelAction)
@@ -184,7 +206,6 @@ final class PlaceFinderViewController: UIViewController {
             }
             alert.addAction(confirmeAction )
         }
-        
         present(alert, animated: true)
     }
     
