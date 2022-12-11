@@ -9,6 +9,7 @@ import UIKit
 import MapKit
 
 final class ViewController: UIViewController {
+    static let identifier = String(describing: ViewController.self)
     
     private lazy var viewColor: UIView = {
         let view = UIView()

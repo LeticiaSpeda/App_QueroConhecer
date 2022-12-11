@@ -8,8 +8,13 @@
 import UIKit
 import MapKit
 
+protocol PlaceFinderDelegate: AnyObject {
+    func addPlace(_ place: Place)
+}
+
 final class PlaceFinderViewController: UIViewController {
     var place: Place?
+    weak var delegate: PlaceFinderDelegate?
     
     enum PlaceFinderMessageType {
         case error(String)
@@ -102,7 +107,9 @@ final class PlaceFinderViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         commonInit()
-        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(getLocation(_:)))
+        let gesture = UILongPressGestureRecognizer(
+            target: self, action: #selector(getLocation(_:))
+        )
         gesture.minimumPressDuration = 2.0
         mapView.addGestureRecognizer(gesture)
     }
@@ -120,37 +127,34 @@ final class PlaceFinderViewController: UIViewController {
         geoCoder.geocodeAddressString(address) { [weak self] placemarks, error in
             guard let self = self else { return }
             self.load(show: false)
-            
-            if error == nil {
-                let hasNoLocal = !self.savePlace(with: placemarks?.first)
-                if hasNoLocal{
-                    self.showManage(type: .error("Não foi encontrado nenhum local com esse nome"))
-                }
-                
-            } else {
-                self.showManage(type: .error("Erro desconhecido"))
-            }
+            self.handlePlacemark(placemarks: placemarks, error: error)
         }
     }
     
     @objc func getLocation(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
-            load(show: true)
+            
             let point = gesture.location(in: mapView)
             let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
             let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-            CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
+            
+            load(show: true)
+            CLGeocoder().reverseGeocodeLocation(location) { [weak self] placemarks, error in
+                guard let self = self else { return }
                 self.load(show: false)
-                
-                if error == nil {
-                    let hasNoLocal = !self.savePlace(with: placemarks?.first)
-                    if hasNoLocal{
-                        self.showManage(type: .error("Não foi encontrado nenhum local com esse nome"))
-                    }
-                } else {
-                    self.showManage(type: .error("Erro desconhecido"))
-                }
+                self.handlePlacemark(placemarks: placemarks, error: error)
             }
+        }
+    }
+    
+    private func handlePlacemark(placemarks: [CLPlacemark]?, error: Error?) {
+        if error == nil {
+            let hasNoLocal = !self.savePlace(with: placemarks?.first)
+            if hasNoLocal{
+                self.showManage(type: .error("Não foi encontrado nenhum local com esse nome"))
+            }
+        } else {
+            self.showManage(type: .error("Erro desconhecido"))
         }
     }
     
@@ -166,7 +170,10 @@ final class PlaceFinderViewController: UIViewController {
             address: address
         )
         
-        let regiom = MKCoordinateRegion(center: coordinate, latitudinalMeters: 3500, longitudinalMeters: 3500)
+        let regiom = MKCoordinateRegion(
+            center: coordinate, latitudinalMeters: 3500,
+            longitudinalMeters: 3500
+        )
         mapView.setRegion(regiom, animated: true)
         
         self.showManage(type: .confirmation(place?.name ?? " "))
@@ -202,7 +209,9 @@ final class PlaceFinderViewController: UIViewController {
         alert.addAction(cancelAction)
         if hasConfirmation {
             let confirmeAction = UIAlertAction(title: "OK", style: .default) { (action) in
-                print("OK!!!")
+                self.delegate?.addPlace(self.place ?? .init(name: " ", latitude: 0, longitude: 0, address: " "))
+                self.dismiss(animated: true)
+                
             }
             alert.addAction(confirmeAction )
         }

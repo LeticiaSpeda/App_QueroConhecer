@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-struct Place {
+struct Place: Codable {
     let name: String
     let latitude: CLLocationDegrees
     let longitude: CLLocationDegrees
@@ -41,7 +41,13 @@ struct Place {
         if let country = placemark.country {
             address += "\n\(country)"
         }
-        
         return address
     }
+}
+
+extension Place: Equatable {
+    static func ==(lhs: Place, rhs: Place) -> Bool {
+        return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
+    }
+    
 }
