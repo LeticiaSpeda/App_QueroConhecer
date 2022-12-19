@@ -29,9 +29,6 @@ final class PlacesTableViewController: UITableViewController {
             forCellReuseIdentifier: PlacesTableViewCell.identifier
             
         )
-        
-        
-        
     }
     
     private func loadPlaces() {
@@ -92,7 +89,10 @@ final class PlacesTableViewController: UITableViewController {
     }
     
     @objc func showAll() {
-        
+        let controller = MapViewController()
+        let navigation = UINavigationController(rootViewController: controller)
+        navigation.modalPresentationStyle = .overFullScreen
+        present(navigation, animated: true)
     }
     override func tableView(_ tableView: UITableView,cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -109,10 +109,17 @@ final class PlacesTableViewController: UITableViewController {
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
-        let controller = ViewController()
+        let controller = MapViewController()
         let navigation = UINavigationController(rootViewController: controller)
         navigation.modalPresentationStyle = .overFullScreen
         present(navigation, animated: true)
+        
+        switch controller {
+        case let place as Place:
+            controller.places = [place]
+        default:
+            controller.places = places
+        }
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -122,7 +129,6 @@ final class PlacesTableViewController: UITableViewController {
             savePlaces()
         }
     }
-    
 }
 
 extension PlacesTableViewController: PlaceFinderDelegate {
