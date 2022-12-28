@@ -25,7 +25,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         safeWindow.makeKeyAndVisible()
         
         window =  safeWindow
-//        window?.tintColor = #colorLiteral(red: 0, green: 0.7127699256, blue: 0.8802993894, alpha: 1)
     }
 }
 

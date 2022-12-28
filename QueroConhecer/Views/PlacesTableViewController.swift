@@ -9,8 +9,8 @@ import UIKit
 
 final class PlacesTableViewController: UITableViewController {
     var places: [Place] = []
-    let ud = UserDefaults.standard
     
+    private let localDataBase: LocalDataBase = UserDefaultAdapter()
     
     private lazy var lbNoPlaces: UILabel = {
         let label = UILabel()
@@ -32,21 +32,12 @@ final class PlacesTableViewController: UITableViewController {
     }
     
     private func loadPlaces() {
-        if let placesData = ud.data(forKey: "places") {
-            do {
-                places = try JSONDecoder().decode(
-                    [Place].self, from: placesData
-                )
-                tableView.reloadData()
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
+        places = localDataBase.fetch(forKey: "places")
+        tableView.reloadData()
     }
     
     private func savePlaces() {
-        let json = try? JSONEncoder().encode(places)
-        ud.set(json, forKey: "places")
+        localDataBase.register(forKey: "places", places: places)
     }
     
     private func configureStyle() {
@@ -90,10 +81,12 @@ final class PlacesTableViewController: UITableViewController {
     
     @objc func showAll() {
         let controller = MapViewController()
+        controller.places = places
         let navigation = UINavigationController(rootViewController: controller)
         navigation.modalPresentationStyle = .overFullScreen
         present(navigation, animated: true)
     }
+    
     override func tableView(_ tableView: UITableView,cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: PlacesTableViewCell.identifier,
@@ -110,16 +103,12 @@ final class PlacesTableViewController: UITableViewController {
         didSelectRowAt indexPath: IndexPath
     ) {
         let controller = MapViewController()
+
+        controller.places = [places[indexPath.row]]
+        
         let navigation = UINavigationController(rootViewController: controller)
         navigation.modalPresentationStyle = .overFullScreen
         present(navigation, animated: true)
-        
-        switch controller {
-        case let place as Place:
-            controller.places = [place]
-        default:
-            controller.places = places
-        }
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

@@ -16,12 +16,7 @@ final class PlaceFinderViewController: UIViewController {
     var place: Place?
     weak var delegate: PlaceFinderDelegate?
     
-    enum PlaceFinderMessageType {
-        case error(String)
-        case confirmation(String)
-    }
-    
-    private lazy var placeView: UIView = {
+       private lazy var placeView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.enableView()

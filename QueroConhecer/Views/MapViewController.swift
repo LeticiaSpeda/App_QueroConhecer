@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-final class MapViewController: UIViewController {
+final class MapViewController: UIViewController  {
     
     var places: [Place] = []
     
@@ -39,8 +39,10 @@ final class MapViewController: UIViewController {
         search.searchTextField.leftView?.tintColor = .black.withAlphaComponent(0.5)
         search.barTintColor = #colorLiteral(red: 0.08193505555, green: 0.728433311, blue: 0.8918333054, alpha: 1)
         search.searchTextField.backgroundColor = .white
+        search.searchTextField.textColor = .black
+        search.resignFirstResponder()
         search.layer.cornerRadius = 5
-//        search.isHidden = true
+        search.isHidden = true
         search.enableCode()
         return search
     }()
@@ -65,7 +67,7 @@ final class MapViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 10
-//        view.isHidden = true
+        view.isHidden = true
         view.enableView()
         return view
     }()
@@ -92,10 +94,7 @@ final class MapViewController: UIViewController {
     private lazy var traceRoutesButton: UIButton = {
         let button = UIButton()
         button.setTitle("Traçar Rotas", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 0.08193505555,
-                                           green: 0.728433311,
-                                           blue: 0.8918333054,
-                                           alpha: 1), for: .normal)
+        button.setTitleColor(UIColor(named: "main"), for: .normal)
         button.enableCode()
         return button
     }()
@@ -103,6 +102,7 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         commonInit()
+        mapView.delegate = self
         
         if places.count == 1 {
             title = places[0].name
@@ -130,9 +130,7 @@ final class MapViewController: UIViewController {
     }
     
     private func addToMap(_ place: Place ) {
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = place.coordinate
-        annotation.title = place.name
+        let annotation = PlaceAnnotation(coordinate: place.coordinate, title: place.name, type: .place, address: place.address)
         mapView.addAnnotation(annotation)
     }
     
@@ -167,7 +165,7 @@ final class MapViewController: UIViewController {
             mainVStack.trailingAnchor.constraint(equalTo: viewColor.trailingAnchor, constant: -20),
             mainVStack.bottomAnchor.constraint(equalTo: viewColor.bottomAnchor, constant: -20),
             
-            mapView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 40),
+            mapView.heightAnchor.constraint(greaterThanOrEqualToConstant: UIScreen.main.bounds.width - 40),
 
             infoVStack.topAnchor.constraint(equalTo: infoMapView.topAnchor,constant: 5),
             infoVStack.leadingAnchor.constraint(equalTo: infoMapView.leadingAnchor,constant: 10),
@@ -202,5 +200,32 @@ final class MapViewController: UIViewController {
 extension UIView {
     func enableCode() {
         translatesAutoresizingMaskIntoConstraints = false
+    }
+}
+extension MapViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if !(annotation is PlaceAnnotation) {
+             return nil
+        }
+
+        let type = (annotation as? PlaceAnnotation)?.type
+        let identifier = "\(String(describing: type))"
+        var annotationView = mapView.dequeueReusableAnnotationView(
+            withIdentifier: identifier
+        ) as? MKMarkerAnnotationView
+
+        if annotationView == nil {
+            annotationView = MKMarkerAnnotationView(
+                annotation: annotation,
+                reuseIdentifier:  identifier
+            )
+        }
+        annotationView?.annotation = annotation
+        annotationView?.canShowCallout = true
+        annotationView?.markerTintColor = type == .place ? UIColor(named: "main") : UIColor(named: "poi")
+        annotationView?.glyphImage = type == .place ? UIImage(named: "placeGlyph") : UIImage(named: "poiGlyph")
+        annotationView?.displayPriority = type == .place ? .required : .defaultHigh
+        
+        return annotationView
     }
 }

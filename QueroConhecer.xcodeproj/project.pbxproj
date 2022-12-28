@@ -10,6 +10,10 @@
 		E002A182293414B000A4EEFA /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = E002A181293414B000A4EEFA /* Place.swift */; };
 		E0B423122912BF9C002E7373 /* PlaceFinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B423112912BF9C002E7373 /* PlaceFinderViewController.swift */; };
 		E0B4231429154AAD002E7373 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4231329154AAD002E7373 /* MapViewController.swift */; };
+		E0C55CE72954A52E009EF445 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C55CE62954A52E009EF445 /* PlaceAnnotation.swift */; };
+		E0C55CEA2954A5FD009EF445 /* PlaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C55CE92954A5FD009EF445 /* PlaceType.swift */; };
+		E0C55CEC2954A65C009EF445 /* PlaceFinderMessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C55CEB2954A65C009EF445 /* PlaceFinderMessageType.swift */; };
+		E0C55CF42954F413009EF445 /* UserDefaultAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C55CF32954F413009EF445 /* UserDefaultAdapter.swift */; };
 		E0DC6B1F2911F72D00D9F3E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DC6B1E2911F72D00D9F3E5 /* AppDelegate.swift */; };
 		E0DC6B212911F72D00D9F3E5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DC6B202911F72D00D9F3E5 /* SceneDelegate.swift */; };
 		E0DC6B232911F72D00D9F3E5 /* PlacesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DC6B222911F72D00D9F3E5 /* PlacesTableViewController.swift */; };
@@ -22,6 +26,10 @@
 		E002A181293414B000A4EEFA /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		E0B423112912BF9C002E7373 /* PlaceFinderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceFinderViewController.swift; sourceTree = "<group>"; };
 		E0B4231329154AAD002E7373 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		E0C55CE62954A52E009EF445 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
+		E0C55CE92954A5FD009EF445 /* PlaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceType.swift; sourceTree = "<group>"; };
+		E0C55CEB2954A65C009EF445 /* PlaceFinderMessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceFinderMessageType.swift; sourceTree = "<group>"; };
+		E0C55CF32954F413009EF445 /* UserDefaultAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultAdapter.swift; sourceTree = "<group>"; };
 		E0DC6B1B2911F72D00D9F3E5 /* QueroConhecer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QueroConhecer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0DC6B1E2911F72D00D9F3E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E0DC6B202911F72D00D9F3E5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +51,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E0C55CE82954A5E2009EF445 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E0C55CE92954A5FD009EF445 /* PlaceType.swift */,
+				E0C55CEB2954A65C009EF445 /* PlaceFinderMessageType.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		E0C55CED2954A78B009EF445 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				E0DC6B3529120EE200D9F3E5 /* PlacesTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		E0C55CEE2954A7D8009EF445 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E002A181293414B000A4EEFA /* Place.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E0C55CEF2954A8DD009EF445 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E0C55CF32954F413009EF445 /* UserDefaultAdapter.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		E0DC6B122911F72D00D9F3E5 = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +106,9 @@
 			isa = PBXGroup;
 			children = (
 				E0DC6B3429120E9300D9F3E5 /* Views */,
+				E0C55CE82954A5E2009EF445 /* Helpers */,
+				E0C55CEE2954A7D8009EF445 /* Model */,
+				E0C55CEF2954A8DD009EF445 /* Services */,
 				E0DC6B2C2911F73100D9F3E5 /* Info.plist */,
 			);
 			path = QueroConhecer;
@@ -91,11 +135,11 @@
 		E0DC6B3429120E9300D9F3E5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E0C55CED2954A78B009EF445 /* Cell */,
 				E0DC6B222911F72D00D9F3E5 /* PlacesTableViewController.swift */,
-				E0DC6B3529120EE200D9F3E5 /* PlacesTableViewCell.swift */,
 				E0B423112912BF9C002E7373 /* PlaceFinderViewController.swift */,
 				E0B4231329154AAD002E7373 /* MapViewController.swift */,
-				E002A181293414B000A4EEFA /* Place.swift */,
+				E0C55CE62954A52E009EF445 /* PlaceAnnotation.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -170,9 +214,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0C55CE72954A52E009EF445 /* PlaceAnnotation.swift in Sources */,
 				E0B4231429154AAD002E7373 /* MapViewController.swift in Sources */,
 				E0DC6B232911F72D00D9F3E5 /* PlacesTableViewController.swift in Sources */,
 				E0DC6B1F2911F72D00D9F3E5 /* AppDelegate.swift in Sources */,
+				E0C55CF42954F413009EF445 /* UserDefaultAdapter.swift in Sources */,
+				E0C55CEA2954A5FD009EF445 /* PlaceType.swift in Sources */,
+				E0C55CEC2954A65C009EF445 /* PlaceFinderMessageType.swift in Sources */,
 				E0B423122912BF9C002E7373 /* PlaceFinderViewController.swift in Sources */,
 				E0DC6B212911F72D00D9F3E5 /* SceneDelegate.swift in Sources */,
 				E002A182293414B000A4EEFA /* Place.swift in Sources */,

@@ -71,6 +71,7 @@ final class PlacesTableViewCell: UITableViewCell {
     
     private func configureStyle() {
         accessoryType = .disclosureIndicator
+        selectionStyle = .none
         backgroundColor = .white
     }
 }
